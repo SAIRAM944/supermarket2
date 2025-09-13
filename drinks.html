@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Cool Drinks</title>
+    <style>
+        :root {
+            --primary-color: #00c6ff;
+            --secondary-color: #0072ff;
+            --accent-color: #ff6b6b;
+            --dark-color: #2d3436;
+            --light-color: #f5f6fa;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            color: var(--light-color);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Liquid Wave Background */
+        .liquid-bg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .liquid-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 45%;
+            animation: wave 15s linear infinite;
+            opacity: 0.8;
+        }
+
+        .liquid-wave:nth-child(1) {
+            animation-delay: 0s;
+            bottom: -50px;
+        }
+
+        .liquid-wave:nth-child(2) {
+            animation-delay: -5s;
+            bottom: -80px;
+            opacity: 0.5;
+            border-radius: 40%;
+        }
+
+        .liquid-wave:nth-child(3) {
+            animation-delay: -2s;
+            bottom: -110px;
+            opacity: 0.3;
+            border-radius: 35%;
+        }
+
+        @keyframes wave {
+            0% {
+                transform: translateX(0) rotate(0deg);
+            }
+            100% {
+                transform: translateX(-50%) rotate(360deg);
+            }
+        }
+
+        /* Floating Ice Cubes */
+        .ice-cube {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(3px);
+            border-radius: 15px;
+            z-index: -1;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-50px) rotate(180deg);
+            }
+            100% {
+                transform: translateY(0) rotate(360deg);
+            }
+        }
+
+        /* Glass Morphism Elements */
+        .glass-panel {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            z-index: -1;
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.1) rotate(5deg);
+                opacity: 0.9;
+            }
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(to right, #ffffff, #f8f8f8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+            margin: 0 auto;
+            max-width: 1200px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .item {
+            border: none;
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            width: 220px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .item::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+            transform: rotate(45deg);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .item:hover::before {
+            opacity: 1;
+        }
+
+        .item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .item:hover img {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        p {
+            margin: 8px 0;
+            color: var(--light-color);
+            font-weight: 500;
+        }
+
+        button {
+            background: linear-gradient(to right, var(--accent-color), #ff8e8e);
+            color: white;
+            padding: 8px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 25px;
+            margin-top: 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cart-button {
+            padding: 12px 25px;
+            font-size: 16px;
+            min-width: 180px;
+        }
+
+        /* Pop-up styles */
+        #popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(45, 52, 54, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            max-width: 400px;
+            width: 90%;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #popup-message {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        #popup button {
+            background: linear-gradient(to right, #ff6b6b, #ff8e8e);
+            padding: 10px 25px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Liquid Background -->
+    <div class="liquid-bg">
+        <div class="liquid-wave"></div>
+        <div class="liquid-wave"></div>
+        <div class="liquid-wave"></div>
+    </div>
+
+    <!-- Floating Ice Cubes -->
+    <div class="ice-cube" style="width: 80px; height: 80px; top: 20%; left: 10%; animation-delay: 0s;"></div>
+    <div class="ice-cube" style="width: 60px; height: 60px; top: 70%; left: 85%; animation-delay: -3s;"></div>
+    <div class="ice-cube" style="width: 100px; height: 100px; top: 40%; left: 75%; animation-delay: -6s;"></div>
+    <div class="ice-cube" style="width: 50px; height: 50px; top: 60%; left: 15%; animation-delay: -9s;"></div>
+
+    <!-- Glass Panels -->
+    <div class="glass-panel" style="width: 150px; height: 150px; top: 15%; right: 10%; animation-delay: 0s;"></div>
+    <div class="glass-panel" style="width: 200px; height: 200px; bottom: 15%; left: 10%; animation-delay: -2s;"></div>
+
+    <h1>Premium Cool Drinks</h1>
+    
+    <div class="container">
+        <div class="item">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSe_oAV7szSmhd9Nl587-UuI9iueMYpjObMxg&s">
+            <p>Item: Sprite</p>
+            <p>Price: ₹20</p>
+            <button>Add to Cart</button>
+        </div>
+        <div class="item">
+            <img src="https://m.media-amazon.com/images/I/61Io9C0yt+L.jpg">
+            <p>Item: Thumbs Up</p>
+            <p>Price: ₹20</p>
+            <button>Add to Cart</button>
+        </div>
+        <div class="item">
+            <img src="https://m.media-amazon.com/images/I/61+jGc7vLIL.jpg">
+            <p>Item: Mazza</p>
+            <p>Price: ₹20</p>
+            <button>Add to Cart</button>
+        </div>
+        <div class="item">
+            <img src="https://www.zuppa.com.my/zuppamarket/wp-content/uploads/Minute-Maid-Pulpy-Orange-350ml.jpg">
+            <p>Item: Minute Maid</p>
+            <p>Price: ₹20</p>
+            <button>Add to Cart</button>
+        </div>
+    </div>
+
+    <div class="button-group">
+        <button class="cart-button">Go to Cart</button>
+        <button class="cart-button">Go Back</button>
+        <button class="cart-button">Proceed to Payment</button>
+    </div>
+
+    <!-- Pop-up Notification -->
+    <div id="popup">
+        <p id="popup-message">Item added to cart!</p>
+        <button>Close</button>
+    </div>
+    <script>
+    // ====== ADD TO CART ======
+    const addToCartButtons = document.querySelectorAll('.item button');
+    const goToCartButton = document.querySelectorAll('.cart-button')[0]; // First button = Go to Cart
+    const popup = document.getElementById('popup');
+    const popupMessage = document.getElementById('popup-message');
+
+    // Update Cart Count (optional badge if you add later)
+    function updateCartCount() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        return cart.length;
+    }
+
+    // Add item to cart
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const item = button.parentElement;
+            const name = item.querySelector('p:nth-child(2)').textContent;
+            const price = item.querySelector('p:nth-child(3)').textContent;
+            const image = item.querySelector('img').src;
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push({ name, price, image });
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            popupMessage.textContent = `${name} has been added to your cart!`;
+            popup.style.display = 'block';
+        });
+    });
+
+    // Close popup
+    document.querySelector('#popup button').addEventListener('click', () => {
+        popup.style.display = 'none';
+    });
+
+    // Go to Cart Page
+    goToCartButton.addEventListener('click', () => {
+        window.location.href = 'file:///C:/Users/himas/OneDrive/Desktop/supermarket/cart.html';
+    });
+    </script>
+</body>
+</html>

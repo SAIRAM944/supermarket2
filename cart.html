@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supermarket Checkout</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --highlight-color: #f39c12;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+
+        body {
+            background-color: var(--light-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            color: var(--dark-color);
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .store-name {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .checkout-info {
+            display: flex;
+            gap: 20px;
+        }
+
+        .checkout-info div {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .main-content {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .cart-section {
+            flex: 3;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+
+        .summary-section {
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--light-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .cart-items {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .item-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 2;
+        }
+
+        .item-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .item-name {
+            font-weight: 500;
+        }
+
+        .item-price {
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-btn:hover {
+            background: #f5f5f5;
+        }
+
+        .quantity-input {
+            width: 40px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .remove-btn:hover {
+            color: var(--accent-color);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 8px 0;
+        }
+
+        .summary-total {
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-top: 2px solid #eee;
+            margin-top: 10px;
+            padding-top: 10px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--highlight-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background-color: #e67e22;
+        }
+
+        .payment-methods {
+            margin-top: 20px;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .payment-method:hover {
+            background: #f9f9f9;
+        }
+
+        .payment-method.selected {
+            background-color: #e8f4ff;
+            border-color: var(--secondary-color);
+        }
+
+        .payment-method img {
+            width: 40px;
+            height: auto;
+        }
+
+        .promo-code {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .promo-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .apply-btn {
+            padding: 0 15px;
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            padding: 20px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .scanner-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--highlight-color);
+            box-shadow: 0 0 10px var(--highlight-color);
+            animation: scan 3s linear infinite;
+            z-index: 1000;
+            display: none;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        /* Payment method specific styles */
+        .payment-method.visa.selected {
+            background-color: #1a1f71;
+            color: white;
+        }
+        
+        .payment-method.paypal.selected {
+            background-color: #002c8a;
+            color: white;
+        }
+        
+        .payment-method.applepay.selected {
+            background-color: #000;
+            color: white;
+        }
+        
+        .payment-method.cash.selected {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .checkout-info {
+                display: none;
+            }
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 40px 0;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="scanner-animation" id="scanner"></div>
+
+    <div class="header">
+        <div class="store-name">GlobalMart</div>
+        <div class="checkout-info">
+            <div>
+                <span>🛒</span>
+                <span>Checkout</span>
+            </div>
+            <div>
+                <span>📍</span>
+                <span>Store #142</span>
+            </div>
+            <div>
+                <span>⏰</span>
+                <span id="current-time">10:45 AM</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="cart-section">
+                <h2 id="cart-title">Your Shopping Cart (0 items)</h2>
+                <ul class="cart-items" id="cart-list">
+                    <li class="empty-cart">Your cart is empty</li>
+                </ul>
+            </div>
+
+            <div class="summary-section">
+                <h2>Order Summary</h2>
+                <div class="summary-row">
+                    <span>Subtotal (<span id="item-count">0</span> items)</span>
+                    <span id="subtotal">€0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Tax (10%)</span>
+                    <span id="tax">€0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Bag Fee</span>
+                    <span id="bag-fee">€0.00</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>Total</span>
+                    <span id="total">€0.00</span>
+                </div>
+
+                <div class="promo-code">
+                    <input type="text" class="promo-input" id="promo-code" placeholder="Promo code">
+                    <button class="apply-btn" onclick="applyPromoCode()">Apply</button>
+                </div>
+
+                <h2>Payment Method</h2>
+                <div class="payment-methods">
+                    <div class="payment-method visa" onclick="selectPaymentMethod(this, 'visa')">
+                        <img src="https://cdn-icons-png.flaticon.com/512/196/196578.png" alt="Credit Card">
+                        <span>Credit/Debit Card</span>
+                    </div>
+                    <div class="payment-method paypal" onclick="selectPaymentMethod(this, 'paypal')">
+                        <img src="https://cdn-icons-png.flaticon.com/512/825/825454.png" alt="PayPal">
+                        <span>PayPal</span>
+                    </div>
+                    <div class="payment-method applepay" onclick="selectPaymentMethod(this, 'applepay')">
+                        <img src="https://cdn-icons-png.flaticon.com/512/888/888857.png" alt="Apple Pay">
+                        <span>Apple Pay</span>
+                    </div>
+                    <div class="payment-method cash" onclick="selectPaymentMethod(this, 'cash')">
+                        <img src="https://cdn-icons-png.flaticon.com/512/825/825423.png" alt="Cash">
+                        <span>Cash at Counter</span>
+                    </div>
+                </div>
+
+                <button class="checkout-btn" onclick="startCheckout()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>GlobalMart © 2023 - Prices include VAT where applicable</p>
+        <p>English | Français | Deutsch | Español | 中文</p>
+    </div>
+
+    <script>
+        // ======= CART JAVASCRIPT =======
+
+// Load cart from localStorage
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let selectedPayment = null;
+let promoApplied = false;
+
+// Update cart display
+function updateCartDisplay() {
+    const cartList = document.getElementById("cart-list");
+    const cartTitle = document.getElementById("cart-title");
+    const itemCountEl = document.getElementById("item-count");
+    const subtotalEl = document.getElementById("subtotal");
+    const taxEl = document.getElementById("tax");
+    const bagFeeEl = document.getElementById("bag-fee");
+    const totalEl = document.getElementById("total");
+
+    cartList.innerHTML = "";
+    if (cart.length === 0) {
+        cartList.innerHTML = '<li class="empty-cart">Your cart is empty</li>';
+        cartTitle.textContent = "Your Shopping Cart (0 items)";
+        itemCountEl.textContent = "0";
+        subtotalEl.textContent = "€0.00";
+        taxEl.textContent = "€0.00";
+        bagFeeEl.textContent = "€0.00";
+        totalEl.textContent = "€0.00";
+        return;
+    }
+
+    cartTitle.textContent = `Your Shopping Cart (${cart.length} items)`;
+    itemCountEl.textContent = cart.length;
+
+    let subtotal = 0;
+
+    cart.forEach((item, index) => {
+        const li = document.createElement("li");
+        li.className = "cart-item";
+        li.innerHTML = `
+            <div class="item-info">
+                <img src="${item.img}" alt="${item.name}" class="item-image">
+                <div>
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-price">${item.price}</div>
+                </div>
+            </div>
+            <div class="item-quantity">
+                <button class="quantity-btn" onclick="decreaseQuantity(${index})">-</button>
+                <input type="text" class="quantity-input" id="qty-${index}" value="${item.quantity}" readonly>
+                <button class="quantity-btn" onclick="increaseQuantity(${index})">+</button>
+            </div>
+            <button class="remove-btn" onclick="removeItem(${index})">&times;</button>
+        `;
+        cartList.appendChild(li);
+
+        const priceNumber = parseFloat(item.price.replace(/[^\d\.]/g, ""));
+        subtotal += priceNumber * item.quantity;
+    });
+
+    const tax = subtotal * 0.10;
+    const bagFee = cart.length * 0.50;
+    const total = subtotal + tax + bagFee;
+
+    subtotalEl.textContent = `€${subtotal.toFixed(2)}`;
+    taxEl.textContent = `€${tax.toFixed(2)}`;
+    bagFeeEl.textContent = `€${bagFee.toFixed(2)}`;
+    totalEl.textContent = `€${total.toFixed(2)}`;
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+// Increase quantity
+function increaseQuantity(index) {
+    cart[index].quantity += 1;
+    updateCartDisplay();
+}
+
+// Decrease quantity
+function decreaseQuantity(index) {
+    if (cart[index].quantity > 1) {
+        cart[index].quantity -= 1;
+        updateCartDisplay();
+    }
+}
+
+// Remove item
+function removeItem(index) {
+    cart.splice(index, 1);
+    updateCartDisplay();
+}
+
+// Apply promo code
+function applyPromoCode() {
+    const code = document.getElementById("promo-code").value.trim();
+    if (code === "SAVE10" && !promoApplied) {
+        cart = cart.map(item => {
+            const priceNumber = parseFloat(item.price.replace(/[^\d\.]/g, ""));
+            const discountedPrice = priceNumber * 0.9;
+            return { ...item, price: `€${discountedPrice.toFixed(2)}` };
+        });
+        promoApplied = true;
+        alert("Promo applied! 10% discount on all items.");
+        updateCartDisplay();
+    } else if (promoApplied) {
+        alert("Promo code already applied.");
+    } else {
+        alert("Invalid promo code.");
+    }
+}
+
+// Select payment method
+function selectPaymentMethod(el, method) {
+    document.querySelectorAll(".payment-method").forEach(pm => pm.classList.remove("selected"));
+    el.classList.add("selected");
+    selectedPayment = method;
+}
+
+// Start checkout
+function startCheckout() {
+    if (!selectedPayment) {
+        alert("Please select a payment method.");
+        return;
+    }
+
+    const scanner = document.getElementById("scanner");
+    scanner.style.display = "block";
+
+    setTimeout(() => {
+        scanner.style.display = "none";
+        alert("Payment successful! Thank you for shopping.");
+        cart = [];
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCartDisplay();
+    }, 3000);
+}
+
+// Initialize cart quantities
+cart = cart.map(item => ({ ...item, quantity: item.quantity || 1 }));
+
+// Initial render
+updateCartDisplay();
+
+    </script>
+</body>
+</html>

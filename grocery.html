@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Fresh Market</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #e74c3c;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            text-align: center;
+            position: relative;
+            overflow-x: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header with Navigation */
+        .market-header {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .market-logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .market-logo span {
+            color: var(--accent-color);
+        }
+
+        .market-nav {
+            display: flex;
+            gap: 25px;
+        }
+
+        .market-nav a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .market-nav a:hover {
+            color: var(--accent-color);
+        }
+
+        .market-actions {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .market-actions i {
+            font-size: 1.2rem;
+            cursor: pointer;
+            position: relative;
+            color: var(--dark-color);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        /* 3D Liquid Background */
+        .liquid-bg {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .liquid-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 45%;
+            animation: wave 15s linear infinite;
+            opacity: 0.8;
+        }
+
+        .liquid-wave:nth-child(1) {
+            animation-delay: 0s;
+            bottom: -50px;
+        }
+
+        .liquid-wave:nth-child(2) {
+            animation-delay: -5s;
+            bottom: -80px;
+            opacity: 0.5;
+            border-radius: 40%;
+        }
+
+        .liquid-wave:nth-child(3) {
+            animation-delay: -2s;
+            bottom: -110px;
+            opacity: 0.3;
+            border-radius: 35%;
+        }
+
+        @keyframes wave {
+            0% { transform: translateX(0) rotate(0deg); }
+            100% { transform: translateX(-50%) rotate(360deg); }
+        }
+
+        /* Floating Glass Elements */
+        .glass-element {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            z-index: -1;
+            animation: float 20s linear infinite;
+            border-radius: 20px;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-50px) rotate(180deg); }
+            100% { transform: translateY(0) rotate(360deg); }
+        }
+
+        /* Hero Banner */
+        .market-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-bar {
+            display: flex;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 30px 0 0 30px;
+            font-size: 1rem;
+        }
+
+        .search-bar button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0 25px;
+            border-radius: 0 30px 30px 0;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .search-bar button:hover {
+            background-color: #c0392b;
+        }
+
+        h1 {
+            color: white;
+            margin: 30px 0;
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(to right, #ffffff, #f8f8f8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .item {
+            border: none;
+            padding: 20px;
+            text-align: center;
+            width: 220px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .item::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+            transform: rotate(45deg);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .item:hover::before {
+            opacity: 1;
+        }
+
+        .item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .item:hover img {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .one { color: white; font-weight: bold; }
+        .two { color: var(--light-color); margin: 10px 0; }
+
+        button {
+            background: linear-gradient(to right, var(--accent-color), #ff6b6b);
+            color: white;
+            padding: 8px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 25px;
+            margin-top: 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        .cart-button {
+            display: block;
+            margin: 30px auto;
+            padding: 12px 25px;
+            font-size: 16px;
+            background: linear-gradient(to right, var(--secondary-color), #27ae60);
+            min-width: 180px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cart-button:hover {
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+        }
+
+        /* Floating Cart */
+        .floating-cart {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .floating-cart::before {
+            content: '🛒';
+            font-size: 30px;
+        }
+
+        .floating-cart:hover {
+            transform: scale(1.1) translateY(-5px);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Discount Tag */
+        .discount-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #ff6b6b, #e74c3c);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(231, 76, 60, 0.3);
+            z-index: 2;
+        }
+
+        /* Popup Styles */
+        #popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(45, 52, 54, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            max-width: 400px;
+            width: 90%;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: pop 0.4s;
+        }
+
+        @keyframes pop {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        #popup-message {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        #popup button {
+            background: linear-gradient(to right, #ff6b6b, #e74c3c);
+            padding: 10px 25px;
+            font-size: 1rem;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+            animation: slideIn 0.3s, fadeOut 0.3s 2s forwards;
+            color: var(--dark-color);
+            font-weight: 500;
+            border-left: 4px solid var(--secondary-color);
+            max-width: 300px;
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        /* Decorative Icons */
+        .decor-icon {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: -1;
+            animation: floatIcon 6s ease-in-out infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes floatIcon {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        /* Category Navigation */
+        .market-categories {
+            display: flex;
+            gap: 15px;
+            margin: 20px auto;
+            max-width: 1200px;
+            padding: 0 20px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .market-categories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-tab {
+            min-width: 120px;
+            text-align: center;
+            padding: 10px 15px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-weight: 500;
+        }
+
+        .category-tab:hover, .category-tab.active {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Footer */
+        .market-footer {
+            background-color: rgba(0, 0, 0, 0.2);
+            color: white;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            padding: 0 20px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--accent-color);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="market-header">
+        <div class="header-container">
+            <div class="market-logo">Global<span>Fresh</span></div>
+            <nav class="market-nav">
+                <a href="#" class="active">Home</a>
+                <a href="#">Shop</a>
+                <a href="#">Categories</a>
+                <a href="#">Deals</a>
+                <a href="#">Contact</a>
+            </nav>
+            <div class="market-actions">
+                <i class="fas fa-search"></i>
+                <i class="fas fa-user"></i>
+                <i class="fas fa-shopping-cart">
+                    <span class="cart-count">0</span>
+                </i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="market-hero">
+        <div class="hero-content">
+            <h1>Premium Quality Groceries</h1>
+            <p>Fresh products delivered to your doorstep</p>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for products...">
+                <button><i class="fas fa-search"></i> Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Navigation -->
+    <div class="market-categories">
+        <div class="category-tab active">All Items</div>
+        <div class="category-tab">Fruits</div>
+        <div class="category-tab">Vegetables</div>
+        <div class="category-tab">Dairy</div>
+        <div class="category-tab">Beverages</div>
+        <div class="category-tab">Snacks</div>
+        <div class="category-tab">Meat</div>
+        <div class="category-tab">Bakery</div>
+    </div>
+
+    <!-- 3D Liquid Background -->
+    <div class="liquid-bg">
+        <div class="liquid-wave"></div>
+        <div class="liquid-wave"></div>
+        <div class="liquid-wave"></div>
+    </div>
+
+    <!-- Floating Glass Elements -->
+    <div class="glass-element" style="width: 150px; height: 150px; top: 15%; left: 10%; animation-delay: 0s;"></div>
+    <div class="glass-element" style="width: 200px; height: 200px; bottom: 15%; right: 10%; animation-delay: -5s;"></div>
+    <div class="glass-element" style="width: 100px; height: 100px; top: 30%; right: 15%; animation-delay: -10s;"></div>
+
+    <!-- Decorative Icons -->
+    <div class="decor-icon" style="top: 10%; left: 5%; background-image: url('https://cdn-icons-png.flaticon.com/512/3081/3081840.png');"></div>
+    <div class="decor-icon" style="top: 20%; right: 8%; background-image: url('https://cdn-icons-png.flaticon.com/512/869/869869.png'); animation-delay: 0.5s;"></div>
+    <div class="decor-icon" style="top: 70%; left: 7%; background-image: url('https://cdn-icons-png.flaticon.com/512/2553/2553610.png'); animation-delay: 1s;"></div>
+    <div class="decor-icon" style="top: 60%; right: 5%; background-image: url('https://cdn-icons-png.flaticon.com/512/1170/1170679.png'); animation-delay: 1.5s;"></div>
+
+    <!-- Floating Cart -->
+    <div class="floating-cart"></div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <div class="container" id="product-list">
+        <div class="item">
+            <div class="discount-tag">10% OFF</div>
+            <img src="https://m.media-amazon.com/images/I/61Br6dM3+KL.jpg" alt="Coffee Powder">
+            <p class="one">Coffee Powder</p>
+            <p class="two">Price: Rs. 120</p>
+            <button class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="item">
+            <img src="https://www.bigbasket.com/media/uploads/p/xxl/1205712-2_4-sunfeast-yippee-noodles-magic-masala.jpg" alt="Noodles">
+            <p class="one">Noodles</p>
+            <p class="two">Price: Rs. 45</p>
+            <button class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="item">
+            <div class="discount-tag">5% OFF</div>
+            <img src="https://5.imimg.com/data5/HQ/KR/MY-5477230/toor-dal-500x500.jpg" alt="Toor Dal">
+            <p class="one">Toor Dal</p>
+            <p class="two">Price: Rs. 180</p>
+            <button class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="item">
+            <img src="https://5.imimg.com/data5/SELLER/Default/2021/7/GU/UR/LF/134036991/freedom-oil-jpg-500x500.jpg" alt="Cooking Oil">
+            <p class="one">Cooking Oil</p>
+            <p class="two">Price: Rs. 210</p>
+            <button class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="item">
+            <img src="https://m.media-amazon.com/images/I/614mm2hYHyL._AC_UF1000,1000_QL80_.jpg" alt="Salt">
+            <p class="one">Salt</p>
+            <p class="two">Price: Rs. 25</p>
+            <button class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="item">
+            <div class="discount-tag">15% OFF</div>
+            <img src="https://m.media-amazon.com/images/I/91Lj2AJXfOL.jpg" alt="Wheat Flour">
+            <p class="one">Wheat Flour</p>
+            <p class="two">Price: Rs. 150</p>
+            <button class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="item">
+            <img src="https://rukminim2.flixcart.com/image/850/1000/xif0q/spice-masala/e/l/8/500-briyani-masala-500gm-pack-of-10-pouch-10-darling-powder-original-imagp9x6qav8ufek.jpeg" alt="Biryani Masala">
+            <p class="one">Biryani Masala</p>
+            <p class="two">Price: Rs. 85</p>
+            <button class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="item">
+            <img src="https://m.media-amazon.com/images/I/81ShgpqhFyL._AC_UF1000,1000_QL80_.jpg" alt="Biryani Rice">
+            <p class="one">Biryani Rice</p>
+            <p class="two">Price: Rs. 95</p>
+            <button class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="item">
+            <div class="discount-tag">20% OFF</div>
+            <img src="https://www.healthifyme.com/blog/wp-content/uploads/2023/07/Curd.jpg" alt="Curd">
+            <p class="one">Fresh Curd</p>
+            <p class="two">Price: Rs. 40</p>
+            <button class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="item">
+            <img src="https://www.chennaigrocers.com/cdn/shop/products/INDISKAFRESHMALAIPANEER200G.jpg" alt="Paneer">
+            <p class="one">Paneer</p>
+            <p class="two">Price: Rs. 220</p>
+            <button class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="item">
+            <img src="https://as1.ftcdn.net/jpg/01/06/68/88/1000_F_106688812_rVoRFXazgIMEUJdvffG9p0XvP8Lntf0a.jpg" alt="Milk">
+            <p class="one">Milk</p>
+            <p class="two">Price: Rs. 60</p>
+            <button class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="item">
+            <div class="discount-tag">10% OFF</div>
+            <img src="https://5.imimg.com/data5/SELLER/Default/2024/2/382882969/BE/BK/SN/73170894/5kg-vidhara-white-sugar-500x500.jpg" alt="Sugar">
+            <p class="one">Sugar</p>
+            <p class="two">Price: Rs. 45</p>
+            <button class="add-to-cart">Add to Cart</button>
+        </div>
+    </div>
+
+    <button class="cart-button" id="go-to-cart">Go to Cart</button>
+
+    <!-- Footer -->
+    <footer class="market-footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Global Fresh</h3>
+                <p>Your premium destination for high-quality groceries and fresh products.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Shop</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Categories</h3>
+                <ul>
+                    <li><a href="#">Fruits & Vegetables</a></li>
+                    <li><a href="#">Dairy & Eggs</a></li>
+                    <li><a href="#">Meat & Seafood</a></li>
+                    <li><a href="#">Bakery</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+                    <li><i class="fas fa-envelope"></i> info@globalfresh.com</li>
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Market St, New York</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 Global Fresh Market. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Pop-up Modal -->
+    <div id="popup">
+        <p id="popup-message"></p>
+        <button>OK</button>
+    </div>
+
+    <script>
+        // Initialize cart if it doesn't exist
+        if (!localStorage.getItem('cart')) {
+            localStorage.setItem('cart', JSON.stringify([]));
+        }
+
+        // Update cart count on page load
+        updateCartCount();
+
+        // Add event listeners to all "Add to Cart" buttons
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const item = this.closest('.item');
+                const name = item.querySelector('.one').textContent;
+                const priceText = item.querySelector('.two').textContent;
+                const price = parseFloat(priceText.replace('Price: Rs. ', ''));
+                const image = item.querySelector('img').src;
+                
+                // Check if item already exists in cart
+                const cart = JSON.parse(localStorage.getItem('cart'));
+                const existingItemIndex = cart.findIndex(item => item.name === name);
+                
+                if (existingItemIndex !== -1) {
+                    // Item exists, increase quantity
+                    cart[existingItemIndex].quantity += 1;
+                } else {
+                    // Item doesn't exist, add new item
+                    cart.push({
+                        name: name,
+                        price: price,
+                        image: image,
+                        quantity: 1
+                    });
+                }
+                
+                // Save updated cart to localStorage
+                localStorage.setItem('cart', JSON.stringify(cart));
+                
+                // Update cart count
+                updateCartCount();
+                
+                // Show notification
+                showNotification(`${name} added to cart successfully!`);
+            });
+        });
+
+        // Go to Cart button functionality
+        document.getElementById('go-to-cart').addEventListener('click', function() {
+            // Get cart from localStorage
+            const cart = JSON.parse(localStorage.getItem('cart'));
+            
+            // Redirect to cart page
+            window.location.href = 'cart.html';
+        });
+
+        // Floating cart icon functionality
+        document.querySelector('.floating-cart').addEventListener('click', function() {
+            document.getElementById('go-to-cart').click();
+        });
+
+        // Update cart count function
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart'));
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            document.querySelector('.cart-count').textContent = totalItems;
+        }
+
+        // Show notification function
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            
+            // Hide notification after 2 seconds
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 2000);
+        }
+
+        // Show popup function (for demo purposes)
+        function showPopup(message) {
+            const popup = document.getElementById('popup');
+            const popupMessage = document.getElementById('popup-message');
+            
+            popupMessage.textContent = message;
+            popup.style.display = 'block';
+            
+            // Close popup when OK button is clicked
+            popup.querySelector('button').onclick = function() {
+                popup.style.display = 'none';
+            };
+        }
+    </script>
+</body>
+</html>
